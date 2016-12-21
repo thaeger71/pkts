@@ -64,7 +64,8 @@ public final class RTPFramer implements Framer<TransportPacket> {
         // so if that isn't the case then it cannot
         // be RTP nor RTCP
         final byte b = data.getByte(0);
-        if (!((b & 0xC0) >> 6 == 0x02)) {
+       // if (!((b & 0xC0) >> 6 == 0x02)) { //Changed to check the whole first byte, because it's a combo of characteristics
+        if (!(b == (byte) 0x80)) {
             return false;
         }
 

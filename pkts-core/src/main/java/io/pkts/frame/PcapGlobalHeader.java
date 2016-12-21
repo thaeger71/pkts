@@ -17,6 +17,7 @@ public final class PcapGlobalHeader {
      * See http://wiki.wireshark.org/Development/LibpcapFileFormat
      */
     public static final byte[] MAGIC_BIG_ENDIAN = { (byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4 };
+    
 
     /**
      * See http://wiki.wireshark.org/Development/LibpcapFileFormat
@@ -217,6 +218,9 @@ public final class PcapGlobalHeader {
         } else if (header[0] == MAGIC_LITTLE_ENDIAN[0] && header[1] == MAGIC_LITTLE_ENDIAN[1]
                 && header[2] == MAGIC_LITTLE_ENDIAN[2] && header[3] == MAGIC_LITTLE_ENDIAN[3]) {
             byteOrder = ByteOrder.LITTLE_ENDIAN;
+        } else if (header[0] == MAGIC_MODIFIED[0] && header[1] == MAGIC_MODIFIED[1]
+                && header[2] == MAGIC_MODIFIED[2] && header[3] == MAGIC_MODIFIED[3]) {
+            byteOrder = ByteOrder.BIG_ENDIAN;
         } else {
             throw new IllegalArgumentException("Unknown header type");
         }

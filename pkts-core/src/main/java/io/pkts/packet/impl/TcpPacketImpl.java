@@ -5,6 +5,7 @@ package io.pkts.packet.impl;
 
 import io.pkts.buffer.Buffer;
 import io.pkts.buffer.Buffers;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.IPPacket;
 import io.pkts.packet.TCPPacket;
 import io.pkts.packet.TransportPacket;
@@ -154,5 +155,10 @@ public final class TcpPacketImpl extends TransportPacketImpl implements TCPPacke
         // TODO: options must be written out as well
         this.parent.write(out, Buffers.wrap(this.headers, payload));
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.parent.getEtherType();
+	}
 
 }

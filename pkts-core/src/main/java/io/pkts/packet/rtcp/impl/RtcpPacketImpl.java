@@ -4,6 +4,7 @@
 package io.pkts.packet.rtcp.impl;
 
 import io.pkts.buffer.Buffer;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.Packet;
 import io.pkts.packet.TransportPacket;
 import io.pkts.packet.impl.AbstractPacket;
@@ -314,5 +315,10 @@ public class RtcpPacketImpl extends AbstractPacket implements RtcpPacket {
     public boolean isTCP() {
         return this.parent.isTCP();
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.parent.getEtherType();
+	}
 
 }

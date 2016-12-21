@@ -3,6 +3,7 @@
  */
 package io.pkts.packet.sip.impl;
 
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.TransportPacket;
 import io.pkts.packet.sip.SipResponse;
 import io.pkts.packet.sip.SipResponsePacket;
@@ -140,5 +141,10 @@ public class SipResponsePacketImpl extends SipPacketImpl implements SipResponseP
         final SipResponse response = this.response.clone();
         return new SipResponsePacketImpl(transport, response);
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.getEtherType();
+	}
 
 }

@@ -4,6 +4,7 @@
 package io.pkts.packet.impl;
 
 import io.pkts.buffer.Buffer;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.Packet;
 import io.pkts.packet.TransportPacket;
 import io.pkts.protocol.Protocol;
@@ -48,5 +49,10 @@ public class UnknownApplicationPacketImpl extends AbstractApplicationPacket {
     public boolean isTCP() {
         return getParent().isTCP();
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return getParent().getEtherType();
+	}
 
 }

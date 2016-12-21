@@ -3,6 +3,8 @@
  */
 package io.pkts.packet;
 
+import io.pkts.framer.EthernetFramer.EtherType;
+
 /**
  * Represents a packet from the Data Link Layer (DLL - Layer 2 in the OSI
  * model). Now, this is not 100% accurate since the MAC layer is really a sub
@@ -12,6 +14,8 @@ package io.pkts.packet;
  */
 public interface MACPacket extends PCapPacket, Cloneable {
 
+	EtherType getEtherType();
+	
     String getSourceMacAddress();
 
     /**

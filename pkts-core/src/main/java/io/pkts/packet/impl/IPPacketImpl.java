@@ -5,6 +5,7 @@ package io.pkts.packet.impl;
 
 import io.pkts.buffer.Buffer;
 import io.pkts.buffer.Buffers;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.framer.TCPFramer;
 import io.pkts.framer.UDPFramer;
 import io.pkts.packet.IPPacket;
@@ -391,5 +392,10 @@ public final class IPPacketImpl extends AbstractPacket implements IPPacket {
 
         return sb.toString();
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.parent.getEtherType();
+	}
 
 }

@@ -3,6 +3,7 @@
  */
 package io.pkts.packet.sip.impl;
 
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.TransportPacket;
 import io.pkts.packet.sip.SipParseException;
 import io.pkts.packet.sip.SipRequest;
@@ -53,5 +54,10 @@ public class SipRequestPacketImpl extends SipPacketImpl implements SipRequestPac
         final SipRequest request = (SipRequest) getSipMessage().clone();
         return new SipRequestPacketImpl(transport, request);
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.getEtherType();
+	}
 
 }

@@ -72,7 +72,7 @@ public class SllFramer implements Framer<PCapPacket> {
 
         final Buffer headers = buffer.readBytes(16);
         final Buffer payload = buffer.slice(buffer.capacity());
-        return new MACPacketImpl(Protocol.SLL, parent, headers, payload);
+        return new MACPacketImpl(Protocol.SLL, null , parent, headers, payload);
     }
 
     /**

@@ -5,6 +5,7 @@ package io.pkts.packet.impl;
 
 import io.pkts.buffer.Buffer;
 import io.pkts.buffer.Buffers;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.packet.IPPacket;
 import io.pkts.packet.TransportPacket;
 import io.pkts.packet.UDPPacket;
@@ -69,5 +70,10 @@ public final class UdpPacketImpl extends TransportPacketImpl implements UDPPacke
         final Buffer pkt = Buffers.wrap(this.headers, payload);
         this.parent.write(out, pkt);
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.parent.getEtherType();
+	}
 
 }

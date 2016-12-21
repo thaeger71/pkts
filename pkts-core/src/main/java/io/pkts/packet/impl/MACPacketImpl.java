@@ -5,10 +5,12 @@ package io.pkts.packet.impl;
 
 import io.pkts.buffer.Buffer;
 import io.pkts.buffer.Buffers;
+import io.pkts.framer.EthernetFramer.EtherType;
 import io.pkts.framer.IPv4Framer;
-import io.pkts.packet.IPPacket;
+import io.pkts.framer.PPPoEFramer;
 import io.pkts.packet.MACPacket;
 import io.pkts.packet.PCapPacket;
+import io.pkts.packet.Packet;
 import io.pkts.protocol.Protocol;
 
 import java.io.IOException;
@@ -19,11 +21,13 @@ import java.io.OutputStream;
  */
 public final class MACPacketImpl extends AbstractPacket implements MACPacket {
 
+	private static final PPPoEFramer pppoe_framer = new PPPoEFramer();
     private static final IPv4Framer framer = new IPv4Framer();
 
     private final PCapPacket parent;
     private final String sourceMacAddress;
     private final String destinationMacAddress;
+    private final EtherType etherType;
 
     /**
      * If the headers are set then this overrides any of the source stuff set
@@ -50,7 +54,7 @@ public final class MACPacketImpl extends AbstractPacket implements MACPacket {
             throw new IllegalArgumentException("The parent packet cannot be null");
         }
 
-        return new MACPacketImpl(Protocol.ETHERNET_II, parent, headers, null);
+        return new MACPacketImpl(Protocol.ETHERNET_II, EtherType.IPv4, parent, headers, null);
     }
 
     /**
@@ -59,10 +63,11 @@ public final class MACPacketImpl extends AbstractPacket implements MACPacket {
      * @param packet
      * @param headers
      */
-    public MACPacketImpl(final Protocol protocol, final PCapPacket parent, final Buffer headers, final Buffer payload) {
+    public MACPacketImpl(final Protocol protocol,final EtherType etherType, final PCapPacket parent, final Buffer headers, final Buffer payload) {
         super(protocol, parent, payload);
         this.parent = parent;
         this.headers = headers;
+        this.etherType=etherType;
         this.sourceMacAddress = null;
         this.destinationMacAddress = null;
     }
@@ -185,7 +190,7 @@ public final class MACPacketImpl extends AbstractPacket implements MACPacket {
     @Override
     public MACPacket clone() {
         final PCapPacket pkt = this.parent.clone();
-        return new MACPacketImpl(getProtocol(), pkt, this.headers.clone(), getPayload().clone());
+        return new MACPacketImpl(getProtocol(),this.etherType, pkt, this.headers.clone(), getPayload().clone());
     }
 
     @Override
@@ -199,12 +204,20 @@ public final class MACPacketImpl extends AbstractPacket implements MACPacket {
     }
 
     @Override
-    public IPPacket getNextPacket() throws IOException {
+    public Packet getNextPacket() throws IOException {
         final Buffer payload = getPayload();
         if (payload == null) {
             return null;
         }
+        if (this.etherType==EtherType.PPPoE)
+        	return pppoe_framer.frame(this, payload);
+        
         return framer.frame(this, payload);
     }
+
+	@Override
+	public EtherType getEtherType() {
+		return this.etherType;
+	}
 
 }
