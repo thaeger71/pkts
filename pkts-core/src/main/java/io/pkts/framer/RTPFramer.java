@@ -82,10 +82,11 @@ public final class RTPFramer implements Framer<TransportPacket> {
 
     @Override
     public RtpPacket frame(final TransportPacket parent, final Buffer buffer) throws IOException {
+
         if (parent == null) {
             throw new IllegalArgumentException("The parent frame cannot be null");
         }
-
+    
         final int index = buffer.getReaderIndex();
 
         try {

@@ -5,6 +5,7 @@ package io.pkts.buffer;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteOrder;
 
 /**
  * @author jonas@jonasborjesson.com
@@ -15,6 +16,7 @@ public abstract class AbstractBuffer implements Buffer {
     private static final byte LF = '\n';
     private static final byte CR = '\r';
     private static final String EMPTY_BUFFER_CANT_WRITE = "This is an empty buffer. Cant write to it";
+    
     /**
      * From where we will continue reading
      */
@@ -42,6 +44,8 @@ public abstract class AbstractBuffer implements Buffer {
      */
     protected int upperBoundary;
 
+
+    
     // protected AbstractBuffer(final int readerIndex, final int lowerBoundary,
     // final int upperBoundary,
     // final byte[] buffer) {
@@ -58,7 +62,8 @@ public abstract class AbstractBuffer implements Buffer {
     @Override
     public abstract Buffer clone();
 
-    /**
+
+	/**
      * {@inheritDoc}
      */
     @Override

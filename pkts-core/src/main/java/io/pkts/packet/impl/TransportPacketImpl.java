@@ -23,13 +23,14 @@ public abstract class TransportPacketImpl extends AbstractPacket implements Tran
     private static final RTPFramer rtpFramer = new RTPFramer();
 
     private final IPPacket parent;
-
+    private final Protocol protocol;
     private final Buffer headers;
 
     protected TransportPacketImpl(final IPPacket parent, final Protocol protocol, final Buffer headers,
             final Buffer payload) {
         super(protocol, parent, payload);
         assert parent != null;
+        this.protocol=protocol;
         this.parent = parent;
         this.headers = headers;
     }
@@ -231,7 +232,7 @@ public abstract class TransportPacketImpl extends AbstractPacket implements Tran
 
         if (sipFramer.accept(payload)) {
             return sipFramer.frame(this, payload);
-        } else if (rtpFramer.accept(payload)) {
+        } else if (rtpFramer.accept(payload) && this.protocol==Protocol.UDP) {
             // RTP is tricky to parse so if we return
             // null then it wasn't an RTP packet afterall
             // so fall through...

@@ -5,6 +5,7 @@ package io.pkts.buffer;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteOrder;
 
 /**
  * Represents an empty buffer.

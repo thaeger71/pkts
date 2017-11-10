@@ -51,7 +51,7 @@ public class PPPPacketImpl extends AbstractPacket implements PPPPacket {
 	}
 
 	@Override
-	public PPPoEPacket clone() {
+	public PPPPacket clone() {
 		final PPPoEPacket pkt = this.parent.clone();
         return new PPPPacketImpl(getProtocol(), pkt, this.header.clone(), getPayload().clone());
 	}
