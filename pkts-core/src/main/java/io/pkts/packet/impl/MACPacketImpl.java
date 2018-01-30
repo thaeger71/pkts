@@ -209,9 +209,9 @@ public final class MACPacketImpl extends AbstractPacket implements MACPacket {
         if (payload == null) {
             return null;
         }
-        if (this.etherType==EtherType.PPPoE)
+        if (this.etherType==EtherType.PPPoE) {
         	return pppoe_framer.frame(this, payload);
-        
+        }
         return framer.frame(this, payload);
     }
 

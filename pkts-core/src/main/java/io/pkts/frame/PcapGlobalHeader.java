@@ -55,6 +55,7 @@ public final class PcapGlobalHeader {
     public static final byte[] MAGIC_MODIFIED_SWAPPED = { (byte) 0x34, (byte) 0xcd, (byte) 0xb2, (byte) 0xa1 };
 
     private final ByteOrder byteOrder;
+    private final byte[] magic;
     private final byte[] body;
 
     /**
@@ -113,19 +114,24 @@ public final class PcapGlobalHeader {
                     + "\". Not sure how to construct the global header. You probably need to add some code yourself");
         }
 
-        return new PcapGlobalHeader(ByteOrder.LITTLE_ENDIAN, body);
+        return new PcapGlobalHeader(ByteOrder.LITTLE_ENDIAN, body,PcapGlobalHeader.MAGIC_LITTLE_ENDIAN);
 
     }
 
-    public PcapGlobalHeader(final ByteOrder byteOrder, final byte[] body) {
+    public PcapGlobalHeader(final ByteOrder byteOrder, final byte[] magic, final byte[] body) {
         assert byteOrder != null;
         assert body != null && body.length == 20;
         this.byteOrder = byteOrder;
+        this.magic=magic;
         this.body = body;
     }
 
     public ByteOrder getByteOrder() {
         return this.byteOrder;
+    }
+    
+    public byte[] getMagic() {
+        return this.magic;
     }
 
     /**
@@ -210,7 +216,7 @@ public final class PcapGlobalHeader {
     public static final PcapGlobalHeader parse(final Buffer in) throws IOException {
         final Buffer h = in.readBytes(4);
         final byte[] header = h.getArray();
-
+        
         ByteOrder byteOrder = null;
         if (header[0] == MAGIC_BIG_ENDIAN[0] && header[1] == MAGIC_BIG_ENDIAN[1]
                 && header[2] == MAGIC_BIG_ENDIAN[2] && header[3] == MAGIC_BIG_ENDIAN[3]) {
@@ -227,7 +233,7 @@ public final class PcapGlobalHeader {
 
         final byte[] body = in.readBytes(20).getArray();
 
-        return new PcapGlobalHeader(byteOrder, body);
+        return new PcapGlobalHeader(byteOrder, h.getArray(),body);
     }
 
     /**

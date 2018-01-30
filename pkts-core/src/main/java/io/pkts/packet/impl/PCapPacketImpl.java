@@ -98,11 +98,10 @@ public final class PCapPacketImpl extends AbstractPacket implements PCapPacket {
         if (payload == null) {
             return null;
         }
-
+        
         if (sllFramer.accept(payload)) {
             return sllFramer.frame(this, payload);
         }
-
         return ethernetFramer.frame(this, payload);
     }
 

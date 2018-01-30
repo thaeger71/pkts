@@ -104,8 +104,9 @@ public class PPPPacketImpl extends AbstractPacket implements PPPPacket {
         if (payload == null) {
             return null;
         }
-        if (getPPPProtocol()==33)//IP
+        if (getPPPProtocol()==33) {//IP
         	return framer.frame(this, payload);
+        }
         return null;
 	}
 

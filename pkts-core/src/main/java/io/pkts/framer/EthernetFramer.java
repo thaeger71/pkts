@@ -77,6 +77,7 @@ public class EthernetFramer implements Framer<PCapPacket> {
 			return EtherType.IPv6;
 		} else if (b1 == (byte) 0x88 && b2 == (byte) 0x64) {
 			return EtherType.PPPoE;
+		} else {			
 		}
 
 		return null;

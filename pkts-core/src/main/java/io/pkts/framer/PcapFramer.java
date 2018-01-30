@@ -12,6 +12,7 @@ import io.pkts.protocol.Protocol;
 
 import java.io.IOException;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * @author jonas@jonasborjesson.com
@@ -49,7 +50,10 @@ public final class PcapFramer implements Framer<PCapPacket> {
         // so we are simply ignoring it.
         Buffer record = null;
         try {
-            record = buffer.readBytes(16);
+        	int header_length = 16;
+        	if(Arrays.equals(globalHeader.getMagic(), PcapGlobalHeader.MAGIC_MODIFIED))
+        		header_length=24;
+            record = buffer.readBytes(header_length);
         } catch (final IndexOutOfBoundsException e) {
             // we def want to do something nicer than exit
             // on an exception like this. For now, good enough
